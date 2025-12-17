@@ -25,3 +25,13 @@ Repayment functionality allows borrowers to repay their loans along with the int
 The smart contract also includes an owner role to manage administrative functions such as setting the interest rate and withdrawing excess funds from the pool. Ownership control ensures that only authorized actions can modify sensitive parameters, improving the security of the application. The use of Solidity’s built-in safety features ensures protection against common issues such as arithmetic overflows and unauthorized access.
 
 This project was implemented and tested using the Remix IDE and the Remix Virtual Machine (VM), which provides a safe testing environment with pre-funded accounts. Multiple test transactions such as deposit, borrow, and repay were performed to verify the correctness of the contract. Successful execution of these transactions demonstrates that the smart contract behaves as expected.
+
+OUTOUT:
+
+<img width="1905" height="941" alt="Image" src="https://github.com/user-attachments/assets/4d18025d-3c34-483d-bff0-e983adb15429" />
+
+<img width="1885" height="986" alt="Image" src="https://github.com/user-attachments/assets/daccf0ce-3bbb-4963-a0c9-71b9e51748f2" />
+
+<img width="1901" height="937" alt="Image" src="https://github.com/user-attachments/assets/e869708e-3370-4613-8b1c-87b441006df2" />
+
+<img width="1895" height="930" alt="Image" src="https://github.com/user-attachments/assets/1c0484cf-30f6-48af-a615-fe17a3e0a8a3" />
