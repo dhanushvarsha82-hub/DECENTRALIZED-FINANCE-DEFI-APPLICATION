@@ -1,0 +1,60 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract SecureLendingPool is Ownable {
+
+    uint256 public interestRate = 5; // 5%
+    uint256 public totalDebt;
+
+    event Deposit(address indexed user, uint256 amount);
+    event Borrow(address indexed borrower, uint256 amount, uint256 interest);
+    event Repay(address indexed borrower, uint256 amount);
+    event Withdraw(uint256 amount);
+    event InterestRateSet(uint256 newRate);
+
+    // ✅ FIX: pass msg.sender to Ownable
+    constructor() Ownable(msg.sender) {}
+
+    function deposit() external payable {
+        require(msg.value > 0, "Send ETH");
+        emit Deposit(msg.sender, msg.value);
+    }
+
+    function borrow(uint256 amount) external {
+        require(address(this).balance >= amount, "Insufficient pool balance");
+
+        uint256 interest = (amount * interestRate) / 100;
+        totalDebt += amount + interest;
+
+        (bool success, ) = msg.sender.call{value: amount}("");
+        require(success, "Borrow failed");
+
+        emit Borrow(msg.sender, amount, interest);
+    }
+
+    function repay() external payable {
+        require(msg.value >= totalDebt, "Not enough ETH");
+        totalDebt = 0;
+        emit Repay(msg.sender, msg.value);
+    }
+
+    function withdraw(uint256 amount) external onlyOwner {
+        require(address(this).balance >= amount, "Insufficient balance");
+
+        (bool success, ) = owner().call{value: amount}("");
+        require(success, "Withdraw failed");
+
+        emit Withdraw(amount);
+    }
+
+    function setInterestRate(uint256 _rate) external onlyOwner {
+        interestRate = _rate;
+        emit InterestRateSet(_rate);
+    }
+
+    receive() external payable {
+        emit Deposit(msg.sender, msg.value);
+    }
+}
